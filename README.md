@@ -1,3 +1,33 @@
+# Rapport
+## Etape 1
+
+Création d'un dossier static-web-server contant:
+- Le site static, modèle tiré de https://www.free-css.com/free-css-templates/page296/finexo.
+- Un Dockerfile.
+- Un fichier de configuration nginx.
+
+Pour lancer le server dans docker il faut utiliser un terminal dans le dossier pour le serveur statique.
+- Construire l'image Docker avec : "docker build -t static-nginx-server ."
+- Lancer le conteneur sur le port 80 avec : docker run -d -p 8080:80 --name static-site static-nginx-server
+
+Accès au serveur Web ce fait sur http://localhost:8080.
+
+## Etape 2 
+
+Ajout de Docker Compose dans le dossier *static-web-server" avec la configuration.
+
+Construire l'image:
+"docker compose build"
+
+Démarrer l'infrastructure :
+"docker compose up -d" //Cela lance le conteneur automatiquement et -d permet de lancer le conteneur en arrière-plan, sans afficher les logs directement dans le terminal.
+
+Arrêter l'infrastructure :
+"docker compose down"
+
+
+
+
 # Objectifs
 
 L'objectif principal de ce TP est d'apprendre à construire une infrastructure Web complète. Cela signifie que nous allons mettre en place une infrastructure serveur qui servira un site Web statique et une API HTTP dynamique. Le diagramme ci-dessous montre l'architecture de l'infrastructure que nous allons créer.
