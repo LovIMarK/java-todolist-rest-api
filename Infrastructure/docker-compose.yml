@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  static-web:
+    build: ./static-web-server
+    container_name: static-web
+    ports:
+      - "8080:80"
+    restart: always
+
+  todolist-api:
+    build: ./todolist-api
+    container_name: todolist-api
+    ports:
+      - "7000:7000"
+    restart: always
