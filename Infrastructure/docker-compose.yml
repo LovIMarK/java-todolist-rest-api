@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Serveur statique
+  static-web:
+    build: ./static-web-server
+    container_name: static-web
+    labels:
+      - traefik.http.routers.static-web.rule=Host(`static-web.localhost`)
+
+
+  # Serveur API
+  todolist-api:
+    build: ./todolist-api
+    container_name: todolist-api
+    labels:
+      - traefik.http.routers.todolist-api.rule=Host(`todolist-api.localhost`)
+
+  # Traefik - Proxy inverse
+  reverse_proxy:
+    image: traefik
+    container_name: reverse_proxy
+    command:
+      - "--api.insecure=true"           # Active le tableau de bord Traefik
+      - "--providers.docker=true"       # Active l'intégration avec Docker
+    ports:
+      - "80:80"     # Redirection du trafic HTTP
+      - "7000:7000" # Pour todolist-api
+      - "8080:8080" # Accès au tableau de bord Traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
