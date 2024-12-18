@@ -44,34 +44,81 @@ pom.xml : Configuration Maven
 
 
 Création de l'image dockerfile pour l'api
-![alt text](image-1.png)
+![Dockerfile pour API](Rapport/images/dockerfile-step3.png)
 
 Mis à jour du docker compose en ajoutant l'api au services
+![Docker Compose API](Rapport/images/compose-step3.png)
 
-![alt text](image.png)
 
 Insomnia est l'outil utilisé pour tester la bonne fonctionnalité de l'api et du support des opérations CRUD. 
 
 5 scénarios de test ont été imaginés pour couvrir les fonctionnalités suivantes :
 
-1.POST /tasks : Création d'une nouvelle tâche.
-Statut attendu : 201 Created
-2.GET /tasks : Récupération de la liste complète des tâches.
-Statut attendu : 200 OK
-3.GET /tasks/{id} : Récupération d'une tâche spécifique par son ID.
-Statut attendu : 200 OK (tâche trouvée) ou 404 Not Found (si l'ID est inexistant).
-4.PUT /tasks/{id} : Mise à jour d'une tâche existante.
-Statut attendu : 200 OK
-5.DELETE /tasks/{id} : Suppression d'une tâche existante.
-Statut attendu : 204 No Content
+1. POST /tasks : Création d'une nouvelle tâche.\
+   Statut attendu : 201 Created
+
+2. GET /tasks : Récupération de la liste complète des tâches.\
+   Statut attendu : 200 OK
+
+3. GET /tasks/{id} : Récupération d'une tâche spécifique par son ID.\
+   Statut attendu : 200 OK (tâche trouvée) ou 404 Not Found (si l'ID est inexistant).
+
+4. PUT /tasks/{id} : Mise à jour d'une tâche existante.\
+   Statut attendu : 200 OK
+
+5. DELETE /tasks/{id} : Suppression d'une tâche existante.\
+   Statut attendu : 204 No Content
 
 Résultats des tests :
-1.![alt text](image-2.png)
-2.![alt text](image-3.png)
-3.![alt text](image-4.png)
-4.![alt text](image-5.png)
-5.![alt text](image-6.png)
+1. **POST /tasks** :  
+   ![POST API](Rapport/images/CREATE-API-step3.png)
+2. **GET /tasks** :  
+   ![GET API](Rapport/images/GET-API.png)
+3. **GET /tasks/{id}** :  
+   ![GET API par ID](Rapport/images/GETId-API.png)
+4. **PUT /tasks/{id}** :  
+   ![PUT API](Rapport/images/PUT-API.png)
+5. **DELETE /tasks/{id}** :  
+   ![DELETE API](Rapport/images/DELETE-API.png)
+
 La tâche l'id 2 a été supprimé de la base de données
+
+## Etape 4 Proxy inverse avec Traefik
+
+Objectif:
+L'objectif de cette étape est de déployer un proxy inverse configuré avec Traefik sur les différents services de l'application en utilisant Docker Compose.
+
+Docker Compose:
+Modification du docker compose pour integrer Traefik.
+Définition trois services principaux :
+
+1. Serveur statique (static-web)
+Accès :
+Traefik redirige les requêtes HTTP vers ce service via la règle définit dans le labels.
+2. Serveur API (todolist-api)
+Accès :
+Traefik redirige les requêtes HTTP vers ce service via la règle définit dans le labels.
+3. Traefik (Proxy inverse)
+Traefik est utilisé pour rediriger les requêtes HTTP vers les bons services en fonction de l'URL demandée.
+
+Ports configurés :
+- 80:80 : Trafic HTTP redirigé web-static.
+- 7000:7000 : Trafic HTTP redirigé todolist-api
+- 8080:8080 : Accès au tableau de bord Traefik.
+
+
+### Docker Compose pour Traefik
+![Docker Compose Traefik](Rapport/images/compose-step4.png)
+
+Vérification:
+La vérification du bon fonctionnement de l'API a été effectuée en utilisant Insomnia. En changeant simplement le nom de l'URL pour refléter la configuration Traefik (http://todolist-api.localhost)
+
+
+Accès au site :
+- Static : http://static-web.localhost/
+- Api tasks : http://todolist-api.localhost/tasks
+- Traefik dashboard : http://localhost:8080/
+
 
 
 # Objectifs
