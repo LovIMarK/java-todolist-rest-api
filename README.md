@@ -68,9 +68,9 @@ Résultats des tests :
 1. **POST /tasks** :  
    ![POST API](images/CREATE-API-step3.png)
 2. **GET /tasks** :  
-   ![GET API](images/GET-API.png)3.![alt text](image-4.png)
+   ![GET API](images/GET-API.png)
 3. **GET /tasks/{id}** :  
-   ![GET API par ID](images/GETId-API.png)5.![alt text](image-6.png)
+   ![GET API par ID](images/GETId-API.png)
 4. **PUT /tasks/{id}** :  
    ![PUT API](images/PUT-API.png)
 5. **DELETE /tasks/{id}** :  
