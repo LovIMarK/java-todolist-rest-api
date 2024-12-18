@@ -49,6 +49,7 @@ Création de l'image dockerfile pour l'api
 Mis à jour du docker compose en ajoutant l'api au services
 ![Docker Compose API](Rapport/images/compose-step3.png)
 
+
 Insomnia est l'outil utilisé pour tester la bonne fonctionnalité de l'api et du support des opérations CRUD. 
 
 5 scénarios de test ont été imaginés pour couvrir les fonctionnalités suivantes :
@@ -117,6 +118,7 @@ Accès au site :
 - Static : http://static-web.localhost/
 - Api tasks : http://todolist-api.localhost/tasks
 - Traefik dashboard : http://localhost:8080/
+
 
 
 # Objectifs
