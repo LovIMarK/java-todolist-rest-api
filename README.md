@@ -44,24 +44,25 @@ pom.xml : Configuration Maven
 
 
 Création de l'image dockerfile pour l'api
-![Dockerfile pour API](images/dockerfile-step3.png)
+![Dockerfile pour API](dockerfile-step3.png)
 
 Mis à jour du docker compose en ajoutant l'api au services
-![Docker Compose API](images/compose-step3.png)
+![Docker Compose API](compose-step3.png)
 
 Insomnia est l'outil utilisé pour tester la bonne fonctionnalité de l'api et du support des opérations CRUD. 
 
 5 scénarios de test ont été imaginés pour couvrir les fonctionnalités suivantes :
 
-1.POST /tasks : Création d'une nouvelle tâche.
+1. POST /tasks : Création d'une nouvelle tâche.
+
 Statut attendu : 201 Created
-2.GET /tasks : Récupération de la liste complète des tâches.
+2. GET /tasks : Récupération de la liste complète des tâches.
 Statut attendu : 200 OK
-3.GET /tasks/{id} : Récupération d'une tâche spécifique par son ID.
+3. GET /tasks/{id} : Récupération d'une tâche spécifique par son ID.
 Statut attendu : 200 OK (tâche trouvée) ou 404 Not Found (si l'ID est inexistant).
-4.PUT /tasks/{id} : Mise à jour d'une tâche existante.
+4. PUT /tasks/{id} : Mise à jour d'une tâche existante.
 Statut attendu : 200 OK
-5.DELETE /tasks/{id} : Suppression d'une tâche existante.
+5. DELETE /tasks/{id} : Suppression d'une tâche existante.
 Statut attendu : 204 No Content
 
 Résultats des tests :
