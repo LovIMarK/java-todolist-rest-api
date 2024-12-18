@@ -127,7 +127,7 @@ Configuration Docker Compose
 
 Le fichier Docker Compose a été modifié pour inclure plusieurs réplicas de chaque service (statique et API) grâce à la clé deploy.replicas
 
-![alt text](Rapport/images/Replicas.png)
+![Docker compose Replicas](Rapport/images/Replicas.png)
 
 ### Ajout et Suppression Dynamique des Instances
 1. Lancer les services avec les réplicas initialement configurés :\
@@ -157,6 +157,27 @@ Traefik met à jour dynamiquement la liste des instances lorsque des réplicas s
 
 Consultez les logs pour vérifier quelle instance a traité chaque requête :\
    `docker logs -f reverse_proxy`
+
+
+## Etape 6 Répartition de la charge avec round-robin et sessions persistantes
+
+Objectif:
+- Configurer et tester des sessions persistantes pour le service API.
+- Maintenir le round-robin pour le service statique.
+
+Configuration:
+Ajout d'un labels dans le site de l'API pour créer des sessions persistantes\
+![Docker compose Persistant](Rapport/images/Sticky.png)
+
+Procédure de Validation:\
+- Round-Robin :\
+Vérification du routage avec les logs du reverse proxy. Envoie de plusieurs requêtes en ouvrant plusieurs pages du site static qui permet d'oberver une nouvelle adresse de routage à chaque reqêtes.\
+![RR result](Rapport/images/RR-result.png)
+
+
+- Sessions Persistantes :
+Vérification du routage avec les logs du reverse proxy. Envoie de plusieurs requêtes avec Insomnia qui permet d'oberver une seule adresse de routage à chaque reqêtes.\
+![Sticky result](Rapport/images/Sticky-result.png)
 
 
 
