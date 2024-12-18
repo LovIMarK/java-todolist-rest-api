@@ -119,6 +119,43 @@ Accès au site :
 - Api tasks : http://todolist-api.localhost/tasks
 - Traefik dashboard : http://localhost:8080/
 
+## Etape 5 Scalabilité et répartition de la charge
+Objectif:
+L'objectif de cette étape est de permettre à Traefik de détecter dynamiquement plusieurs instances des serveurs statiques et dynamiques, tout en vérifiant que la répartition de la charge s'effectue correctement entre les instances.
+
+Configuration Docker Compose
+
+Le fichier Docker Compose a été modifié pour inclure plusieurs réplicas de chaque service (statique et API) grâce à la clé deploy.replicas
+
+### Ajout et Suppression Dynamique des Instances
+1. Lancer les services avec les réplicas initialement configurés :\
+   `docker-compose up -d`
+
+Cela crée 3 instances pour static-web et todolist-api.
+
+2. Ajouter des instances dynamiquement :\
+`docker-compose up -d --scale static-web=5 --scale todolist-api=4`
+
+Cette commande augmente le nombre d'instances pour les deux services sans redémarrer l'infrastructure.
+
+3. Réduire dynamiquement les instances :\
+`docker-compose up -d --scale static-web=2 --scale todolist-api=2`
+
+Cela réduit le nombre d'instances en arrêtant les conteneurs inutilisés.
+
+### Démonstration de la Répartition de Charge
+
+Observation dans le tableau de bord Traefik :
+
+Accédez à http://localhost:8080.
+
+Dans la section Services, vous verrez les instances actives pour chaque service.
+
+Traefik met à jour dynamiquement la liste des instances lorsque des réplicas sont ajoutés ou supprimés.
+
+Consultez les logs pour vérifier quelle instance a traité chaque requête :\
+   `docker logs -f reverse_proxy`
+
 
 
 # Objectifs
