@@ -96,7 +96,7 @@ Ports configurés :
 - 8080:8080 : Accès au tableau de bord Traefik.
 
 
-![alt text](image-2.png)
+![alt text](image-7.png)
 
 Vérification:
 La vérification du bon fonctionnement de l'API a été effectuée en utilisant Insomnia. En changeant simplement le nom de l'URL pour refléter la configuration Traefik (http://todolist-api.localhost)
