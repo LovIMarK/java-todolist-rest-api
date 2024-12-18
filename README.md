@@ -127,6 +127,8 @@ Configuration Docker Compose
 
 Le fichier Docker Compose a été modifié pour inclure plusieurs réplicas de chaque service (statique et API) grâce à la clé deploy.replicas
 
+![alt text](Rapport/images/Replicas.png)
+
 ### Ajout et Suppression Dynamique des Instances
 1. Lancer les services avec les réplicas initialement configurés :\
    `docker-compose up -d`
