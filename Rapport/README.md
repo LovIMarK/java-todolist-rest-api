@@ -44,10 +44,11 @@ pom.xml : Configuration Maven
 
 
 Création de l'image dockerfile pour l'api
-![Dockerfile pour API](images/dockerfile-step3.png)
+![alt text](image-1.png)
 
 Mis à jour du docker compose en ajoutant l'api au services
-![Docker Compose API](images/compose-step3.png)
+
+![alt text](image.png)
 
 Insomnia est l'outil utilisé pour tester la bonne fonctionnalité de l'api et du support des opérations CRUD. 
 
@@ -65,16 +66,11 @@ Statut attendu : 200 OK
 Statut attendu : 204 No Content
 
 Résultats des tests :
-1. **POST /tasks** :  
-   ![POST API](images/CREATE-API-step3.png)
-2. **GET /tasks** :  
-   ![GET API](images/GET-API.png)3.![alt text](image-4.png)
-3. **GET /tasks/{id}** :  
-   ![GET API par ID](images/GETId-API.png)5.![alt text](image-6.png)
-4. **PUT /tasks/{id}** :  
-   ![PUT API](images/PUT-API.png)
-5. **DELETE /tasks/{id}** :  
-   ![DELETE API](images/DELETE-API.png)
+1.![alt text](image-2.png)
+2.![alt text](image-3.png)
+3.![alt text](image-4.png)
+4.![alt text](image-5.png)
+5.![alt text](image-6.png)
 
 La tâche l'id 2 a été supprimé de la base de données
 
@@ -101,8 +97,7 @@ Ports configurés :
 - 8080:8080 : Accès au tableau de bord Traefik.
 
 
-### Docker Compose pour Traefik
-![Docker Compose Traefik](images/compose-step4.png)
+![alt text](image-7.png)
 
 Vérification:
 La vérification du bon fonctionnement de l'API a été effectuée en utilisant Insomnia. En changeant simplement le nom de l'URL pour refléter la configuration Traefik (http://todolist-api.localhost)
