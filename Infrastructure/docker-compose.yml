@@ -17,6 +17,7 @@ services:
       replicas: 3  # Lancer 3 instances
     labels:
       - traefik.http.routers.todolist-api.rule=Host(`todolist-api.localhost`)
+      - traefik.http.services.todolist-api.loadbalancer.sticky.cookie=true
 
   # Traefik - Proxy inverse
   reverse_proxy:
