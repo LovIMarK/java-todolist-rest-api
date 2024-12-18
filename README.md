@@ -43,10 +43,10 @@ Task.java : Modèle de données pour les tâches.
 pom.xml : Configuration Maven
 
 
-Création de l'image dockerfile pour l'api
+Création de l'image dockerfile pour l'api\
 ![Dockerfile pour API](Rapport/images/dockerfile-step3.png)
 
-Mis à jour du docker compose en ajoutant l'api au services
+Mis à jour du docker compose en ajoutant l'api au services\
 ![Docker Compose API](Rapport/images/compose-step3.png)
 
 
@@ -70,15 +70,15 @@ Insomnia est l'outil utilisé pour tester la bonne fonctionnalité de l'api et d
    Statut attendu : 204 No Content
 
 Résultats des tests :
-1. **POST /tasks** :  
+1. **POST /tasks** :  \
    ![POST API](Rapport/images/CREATE-API-step3.png)
-2. **GET /tasks** :  
+2. **GET /tasks** :  \
    ![GET API](Rapport/images/GET-API.png)
-3. **GET /tasks/{id}** :  
+3. **GET /tasks/{id}** :  \
    ![GET API par ID](Rapport/images/GETId-API.png)
-4. **PUT /tasks/{id}** :  
+4. **PUT /tasks/{id}** :  \
    ![PUT API](Rapport/images/PUT-API.png)
-5. **DELETE /tasks/{id}** :  
+5. **DELETE /tasks/{id}** :  \
    ![DELETE API](Rapport/images/DELETE-API.png)
 
 La tâche l'id 2 a été supprimé de la base de données
@@ -107,7 +107,7 @@ Ports configurés :
 - 8080:8080 : Accès au tableau de bord Traefik.
 
 
-### Docker Compose pour Traefik
+### Docker Compose pour Traefik 
 ![Docker Compose Traefik](Rapport/images/compose-step4.png)
 
 Vérification:
