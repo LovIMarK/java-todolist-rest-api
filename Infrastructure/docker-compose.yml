@@ -5,35 +5,40 @@ services:
   static-web:
     build: ./static-web-server
     deploy:
-      replicas: 3  # Lancer 3 instances
+      replicas: 3
     labels:
       - traefik.http.routers.static-web.rule=Host(`static-web.localhost`)
-
+      - traefik.http.routers.static-web.entrypoints=https  # Point d'entrée HTTPS
+      - traefik.http.routers.static-web.tls=true           # Active TLS
 
   # Serveur API
   todolist-api:
     build: ./todolist-api
     deploy:
-      replicas: 3  # Lancer 3 instances
+      replicas: 3
     labels:
       - traefik.http.routers.todolist-api.rule=Host(`todolist-api.localhost`)
       - traefik.http.services.todolist-api.loadbalancer.sticky.cookie=true
+      - traefik.http.routers.todolist-api.entrypoints=https
+      - traefik.http.routers.todolist-api.tls=true
 
   # Traefik - Proxy inverse
   reverse_proxy:
     image: traefik
     container_name: reverse_proxy
     command:
-      - "--api.insecure=true"           # Active le tableau de bord Traefik
-      - "--providers.docker=true"       # Active l'intégration avec Docker
-      - "--log.level=DEBUG"         # Logs détaillés (facultatif)
-      - "--accesslog=true"          # Activer les logs d'accès
-
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--log.level=DEBUG"
+      - "--accesslog=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
     ports:
-      - "80:80"     # Redirection du trafic HTTP
-      - "7000:7000" # Pour todolist-api
-      - "8080:8080" # Accès au tableau de bord Traefik
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+      - "8080:8080"  # Tableau de bord Traefik
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "./traefik-access.log:/traefik-access.log"  # Fichier de logs
-
+      - "./traefik-access.log:/traefik-access.log"
+      - "./certificates:/etc/traefik/certificates"  # Monter le dossier contenant les certificats
+      - "./traefik.yaml:/etc/traefik/traefik.yaml"   # Monter la configuration Traefik

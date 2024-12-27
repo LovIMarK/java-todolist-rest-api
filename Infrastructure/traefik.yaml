@@ -1,0 +1,18 @@
+providers:
+  docker: {}
+
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certificates/traefik.crt
+        keyFile: /etc/traefik/certificates/traefik.key
+
+api:
+  insecure: true  # Le tableau de bord Traefik accessible

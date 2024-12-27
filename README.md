@@ -174,11 +174,66 @@ Procédure de Validation:\
 Vérification du routage avec les logs du reverse proxy. Envoie de plusieurs requêtes en ouvrant plusieurs pages du site static qui permet d'oberver une nouvelle adresse de routage à chaque reqêtes.\
 ![RR result](Rapport/images/RR-result.png)
 
-
 - Sessions Persistantes :
 Vérification du routage avec les logs du reverse proxy. Envoie de plusieurs requêtes avec Insomnia qui permet d'oberver une seule adresse de routage à chaque reqêtes.\
 ![Sticky result](Rapport/images/Sticky-result.png)
 
+## Etape 7 - Configuration HTTPS avec Traefik
+
+### Création du certificat et de la clé
+
+Pour sécuriser l'infrastructure avec HTTPS, un certificat auto-signé a été généré à l'aide de `openssl`. Cela permet de chiffrer les communications entre les clients et le proxy inverse Traefik.
+
+Les fichiers générés sont :
+- **certificat.crt** : le certificat SSL.
+- **key.key** : la clé privée associée au certificat.
+
+Voici la commande utilisée pour générer ces fichiers dans le dossier `certificates` :
+
+```bash
+openssl req -newkey rsa:4096 -nodes -keyout ./certificates/key.key -x509 -out ./certificates/certificat.crt -days 365
+```
+Cela crée un certificat valide pendant 365 jours. Les fichiers ont ensuite été placés dans un dossier nommé `certificates`, qui est monté dans le conteneur Traefik.
+
+### Modifications dans le fichier `docker-compose.yml`
+
+Voici les principales modifications effectuées dans le fichier `docker-compose.yml` :Serveur statique (`static-web`) 
+- Le service a été configuré pour utiliser HTTPS en ajoutant les labels : 
+  - `traefik.http.routers.static-web.entrypoints=https` : Définit le point d'entrée HTTPS.
+ 
+  - `traefik.http.routers.static-web.tls=true` : Active TLS (HTTPS) pour ce service.
+Serveur API (`todolist-api`) 
+- Le service a également été configuré pour utiliser HTTPS avec les labels : 
+  - `traefik.http.routers.todolist-api.entrypoints=https` : Définit le point d'entrée HTTPS.
+ 
+  - `traefik.http.routers.todolist-api.tls=true` : Active TLS (HTTPS) pour ce service.
+
+### Traefik (Proxy inverse) 
+
+Le service Traefik a été configuré avec plusieurs paramètres importants :
+ 
+- Activation de l'API et du tableau de bord Traefik avec `--api.insecure=true`.
+ 
+- Intégration avec Docker via `--providers.docker=true`.
+ 
+- Définition des points d'entrée pour HTTP (`:80`) et HTTPS (`:443`) via les options `--entrypoints.web.address` et `--entrypoints.websecure.address`.
+ 
+- Les certificats SSL sont montés dans le conteneur Traefik via le volume `./certificates:/etc/traefik/certificates`.
+ 
+- La configuration TLS a été ajoutée dans le fichier `traefik.yaml` pour spécifier l'emplacement des certificats.
+
+
+### Montage des volumes 
+
+Les volumes suivants ont été montés dans le conteneur Traefik :
+ 
+- `/var/run/docker.sock:/var/run/docker.sock` : Permet à Traefik d'interagir avec Docker.
+ 
+- `./certificates:/etc/traefik/certificates` : Monte le dossier contenant les certificats SSL.
+ 
+- `./traefik-access.log:/traefik-access.log` : Fichier de logs d'accès.
+ 
+- `./traefik.yaml:/etc/traefik/traefik.yaml` : Fichier de configuration de Traefik.
 
 
 # Objectifs
