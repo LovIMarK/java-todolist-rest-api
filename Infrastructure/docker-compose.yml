@@ -8,8 +8,10 @@ services:
       replicas: 3
     labels:
       - traefik.http.routers.static-web.rule=Host(`static-web.localhost`)
-      - traefik.http.routers.static-web.entrypoints=https  # Point d'entrée HTTPS
-      - traefik.http.routers.static-web.tls=true           # Active TLS
+      - traefik.http.routers.static-web.entrypoints=https
+      - traefik.http.routers.static-web.tls=true       # Active TLS
+      - traefik.http.services.static-web.loadbalancer.sticky.cookie=true
+
 
   # Serveur API
   todolist-api:
@@ -17,10 +19,20 @@ services:
     deploy:
       replicas: 3
     labels:
+    #sticky session
+      - traefik.http.services.todolist-api.loadbalancer.sticky.cookie=true
       - traefik.http.routers.todolist-api.rule=Host(`todolist-api.localhost`)
       - traefik.http.services.todolist-api.loadbalancer.sticky.cookie=true
       - traefik.http.routers.todolist-api.entrypoints=https
       - traefik.http.routers.todolist-api.tls=true
+      # Add CORS headers
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,POST,PUT,DELETE,OPTIONS"
+      - "traefik.http.middlewares.cors.headers.accesscontrolalloworiginlist=https://static-web.localhost"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowcredentials=true"
+      - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"
+      - "traefik.http.middlewares.cors.headers.addvaryheader=true"
+      - "traefik.http.routers.todolist-api.middlewares=cors@docker"
 
   # Traefik - Proxy inverse
   reverse_proxy:
