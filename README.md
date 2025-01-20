@@ -234,3 +234,57 @@ Les volumes suivants ont été montés dans le conteneur Traefik :
 - `./traefik-access.log:/traefik-access.log` : Fichier de logs d'accès.
  
 - `./traefik.yaml:/etc/traefik/traefik.yaml` : Fichier de configuration de Traefik.
+
+
+## Étape Optionnelle 2 - Intégration API - Site Web Statique
+
+### Objectif
+L'objectif de cette étape était d'intégrer notre API REST avec le site web statique en utilisant JavaScript (AJAX). Cette intégration permet aux utilisateurs d'interagir avec la liste des tâches directement depuis l'interface web.
+
+### Implémentation
+1. **Ajout d'une nouvelle section dans le site statique**
+   - Création d'une section "Task Manager" dans index.html
+   - Intégration d'un formulaire pour ajouter des tâches
+   - Mise en place d'une zone d'affichage des tâches existantes
+
+2. **Configuration CORS dans docker-compose.yml**
+   ```yaml
+   todolist-api:
+     labels:
+       - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,POST,PUT,DELETE,OPTIONS"
+       - "traefik.http.middlewares.cors.headers.accesscontrolalloworiginlist=https://static-web.localhost"
+       - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=*"
+       - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=100"
+       - "traefik.http.middlewares.cors.headers.addvaryheader=true"
+       - "traefik.http.routers.todolist-api.middlewares=cors@docker"
+   ```
+
+3. **Implémentation des fonctionnalités JavaScript**
+   - Affichage des tâches existantes au chargement de la page
+   - Ajout de nouvelles tâches via un formulaire
+   - Modification des tâches existantes
+   - Suppression des tâches
+   - Gestion des erreurs et retours utilisateur
+
+4. **Gestion des interactions API**
+   - Utilisation de l'API Fetch pour les requêtes HTTP
+   - Gestion des en-têtes CORS
+   - Ajout des en-têtes Origin appropriés
+
+   ![RR result](Rapport/images/CORS.png)
+
+
+### Fonctionnalités Implémentées
+- **Lecture (GET)** : Affichage automatique des tâches au chargement de la page
+- **Création (POST)** : Ajout de nouvelles tâches via le formulaire
+
+![RR result](Rapport/images/taskFromStatic.png)
+
+### Problème
+- **Replicas** : Lorsque le site statique envoie une nouvelle `task` à l’API seule une instance de l’API est mise à jour. Les autres restent inchangées.
+Ainsi, quand le site rafraîchit les données, il peut récupérer des tâches incohérentes, mélangeant celles des instances mises à jour et des autres.
+
+- **Solution** : Nous avons essayé d’utiliser les sticky sessions pour que le site communique toujours avec la même instance de l’API, mais cela n’a pas suffi.
+- Une autre solution serait de mettre en place une base de données commune pour toutes les instances de l’API, afin de synchroniser les données.
+
+

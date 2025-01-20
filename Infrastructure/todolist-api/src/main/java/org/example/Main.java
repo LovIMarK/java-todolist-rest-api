@@ -9,21 +9,23 @@ public class Main {
         TaskController taskController = new TaskController();
 
         // Add CORS headers
-app.before(ctx -> {
-    ctx.header("Access-Control-Allow-Origin", "https://static-web.localhost"); // Allow requests only from your static site
-    ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    ctx.header("Access-Control-Allow-Headers", "Content-Type");
-    ctx.header("Access-Control-Allow-Credentials", "true"); // Required for credentials
-});
+        app.before(ctx -> {
+            ctx.header("Access-Control-Allow-Origin", "https://static-web.localhost"); // Allow requests only from static site
+            ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            ctx.header("Access-Control-Allow-Headers", "Content-Type");
+            ctx.header("Access-Control-Allow-Credentials", "true"); 
+        });
 
-// Handle preflight requests
-app.options("/*", ctx -> {
-    ctx.header("Access-Control-Allow-Origin", "https://static-web.localhost");
-    ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    ctx.header("Access-Control-Allow-Headers", "Content-Type");
-    ctx.header("Access-Control-Allow-Credentials", "true");
-    ctx.status(204); // No Content
-});
+        // Handle preflight requests
+        app.options("/*", ctx -> {
+            ctx.header("Access-Control-Allow-Origin", "https://static-web.localhost");
+            ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            ctx.header("Access-Control-Allow-Headers", "Content-Type");
+            ctx.header("Access-Control-Allow-Credentials", "true");
+            ctx.status(204); // No Content
+        });
+
+
         // Routes
         app.get("/tasks", taskController::getAllTasks);
         app.get("/tasks/{id}", taskController::getTaskById);

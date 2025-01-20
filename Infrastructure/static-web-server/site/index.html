@@ -834,7 +834,7 @@
     if (response.ok) {
         const tasks = await response.json();
         console.log('Fetched tasks:', tasks);
-        // Render tasks here
+        // Render tasks
         const tasksContainer = document.getElementById('tasks-container');
     tasksContainer.innerHTML = tasks.map(task => `
       <div class="col-md-4 mb-4">
@@ -854,7 +854,7 @@
 
   
     // Call the fetch function periodically
-    setInterval(fetchTasks, 2000); // Refresh every 5 seconds
+    setInterval(fetchTasks, 5000); // Refresh every 5 seconds
     fetchTasks(); // Initial call
   </script>
 
@@ -882,13 +882,10 @@
             body: JSON.stringify(newTask),
         });
 
-        // Print response status (e.g., 201, 400, etc.)
-        console.log('Response Status:', response.status);
-
         if (response.ok) {
             const createdTask = await response.json(); // Parse the JSON response
             console.log('API Response:', createdTask); // Log the JSON response
-            alert(`Response Status: ${response.status}\nTask created successfully:\nTitle: ${createdTask.title}\nDescription: ${createdTask.description}`);
+            alert(`Task created successfully`);
             document.getElementById('addTaskForm').reset(); // Clear the form
             fetchTasks(); // Refresh the task list
         } else {
