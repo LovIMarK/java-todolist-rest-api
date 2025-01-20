@@ -234,12 +234,3 @@ Les volumes suivants ont été montés dans le conteneur Traefik :
 - `./traefik-access.log:/traefik-access.log` : Fichier de logs d'accès.
  
 - `./traefik.yaml:/etc/traefik/traefik.yaml` : Fichier de configuration de Traefik.
-
-
-
-
-### Critères d'acceptation
-- Vous pouvez faire une démo où l'accès au proxy inverse se fait en HTTPS.
-- Vous pouvez expliquer la configuration de Traefik avec HTTPS.
-- Vous êtes capable d'expliquer le rôle des certificats et pourquoi nous utilisons un certificat auto-signé dans cet environnement.
-- Vous avez documenté votre configuration dans votre rapport.
