@@ -55,7 +55,7 @@ The system supports HTTPS, load balancing with replicas, sticky sessions, and fr
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/java-todolist-rest-api.git
+git clone https://github.com/LovIMarK/java-todolist-rest-api.git
 cd java-todolist-rest-api
 ```
 
